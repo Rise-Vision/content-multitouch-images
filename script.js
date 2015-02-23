@@ -32,6 +32,23 @@ $(function(){
           left = left + x_offset;
           top = top + y_offset;
 
+          var containerHeight = $('#zoomwrapper').height();
+          var containerWidth = $('#zoomwrapper').width();
+          var minLeft = containerWidth - (containerWidth-10);
+          var maxLeft = containerWidth - 250;
+          var minTop = containerHeight - (containerHeight-10);
+          var maxTop = containerHeight - 250;
+
+          if(left <= minLeft){
+            left = minLeft;
+          } else if (left >= maxLeft){
+            left = maxLeft;
+          } else if (top <= minTop){
+            top = minTop;
+          } else if (top >= maxTop){
+            top = maxTop;
+          }
+
           this.lastDrag = this.drag[d];
 
           this.drag[d].el.style.left = left +'px';
@@ -91,7 +108,7 @@ $(function(){
 		  			if(el.className.search('polaroid') > -1){
 				 			el = touches[t].target.parentNode.parentNode;
 		  			}
-					$(el).children().toggleClass('upSky');
+					// $(el).children().toggleClass('upSky');
 			
 		  }
       }
@@ -109,8 +126,8 @@ $(function(){
         element = $(element);
 
 
-        var displayWidth = container.width();
-        var displayHeight = container.height();
+        var displayWidth = (container.width())/2;
+        var displayHeight = (container.height())/2;
 
         //These two constants specify the minimum and maximum zoom
         var MIN_ZOOM = 1;
@@ -161,7 +178,11 @@ $(function(){
             var left = $(element).offset().left;
             var top = $(element).offset().top;
 
+
+
             cssOrigin = (-(left) + toX)/scaleFactor +"px "+ (-(top) + toY)/scaleFactor +"px";
+
+
         })
 
         container.bind("transform", function(event) {
@@ -202,5 +223,7 @@ $(function(){
 
             
         }
+
+      
 
     }
